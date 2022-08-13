@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import styles from './App.module.scss';
 import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
+import Notification from './Notification/Notification';
+import Section from './Section/Section';
 import Statistics from './Statictics/Statistics';
 
 export class App extends Component {
@@ -8,22 +9,23 @@ export class App extends Component {
     good: 0,
     neutral: 0,
     bad: 0,
-    total: 0,
-    positive: 0,
   }
 
-  countTotalFeedback = () => {
-    this.setState(({good, neutral, bad}) => ({total: good + neutral + bad}));
+  countTotalFeedback = (state) => {
+    return Object.values(state).reduce((prev, el) => prev + el, 0);
   }
 
-  countPositiveFeedbackPercentage = () => {
-    this.setState(({good, total}) => ({positive: Math.round((good / total) * 100)}));
+  countPositiveFeedbackPercentage = (good, total) => {
+    const positivePercentage = Math.round((good / total) * 100);
+    return (
+      isNaN(positivePercentage)
+        ? 0
+        : positivePercentage
+    )
   }
 
   feedbackIncrementHandler = (evt) => {
     this.feedbackIncrement(evt.target.textContent);
-    this.countTotalFeedback();
-    this.countPositiveFeedbackPercentage();
   }
 
   feedbackIncrement = (key) => {
@@ -31,16 +33,31 @@ export class App extends Component {
   }
 
   render() {
-    const {title} = styles;
-    const btnNames = Object.keys(this.state).filter(n => (n !== "total" && n !== "positive"));
-    const {good, neutral, bad, total, positive} = this.state;
+    const {good, neutral, bad} = this.state;
+    const total = this.countTotalFeedback(this.state);
+    const positive = this.countPositiveFeedbackPercentage(good, total);
+    const btnNames = Object.keys(this.state);
 
     return (
       <>
-        <h2 className={title}>Please leave feedback</h2>
-        <FeedbackOptions options={btnNames} onLeaveFeedback={this.feedbackIncrementHandler} />
-        <h2 className={title}>Statistics</h2>
-        <Statistics good={good} neutral={neutral} bad={bad} total={total} positivePercentage={positive}/>
+        <Section title="Please leave feedback">
+          <FeedbackOptions 
+            options={btnNames} 
+            onLeaveFeedback={this.feedbackIncrementHandler} 
+          />
+        </Section>
+        <Section title="Statistics">
+          {(total !== 0)
+            ? <Statistics 
+                good={good} 
+                neutral={neutral} 
+                bad={bad} 
+                total={total} 
+                positivePercentage={positive}
+              />
+            : <Notification message="There is no feedback" />
+          }
+        </Section>
       </>
     );
   }

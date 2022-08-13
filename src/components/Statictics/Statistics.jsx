@@ -1,6 +1,6 @@
 import styles from './Statistics.module.scss';
 
-export const Statistics = ({good, neutral, bad, total, positivePercentage}) => {
+export const Statistics = ({good, neutral, bad, total, positivePercentage, maybe}) => {
   const {stats, stats__item} = styles;
 
   return (
