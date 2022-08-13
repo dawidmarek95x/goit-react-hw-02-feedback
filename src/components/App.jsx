@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import styles from './App.module.scss';
+import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
+import Statistics from './Statictics/Statistics';
 
 export class App extends Component {
   state = {
@@ -28,50 +30,20 @@ export class App extends Component {
     this.setState((state) => ({[key]: state[key] + 1}));
   }
 
-  goodFeedbackIncrement = () => {
-    this.setState(({good}) => ({good: good + 1}));
-    this.countTotalFeedback();
-    this.countPositiveFeedbackPercentage();
-  }
-
-  neutralFeedbackIncrement = () => {
-    this.setState(({neutral}) => ({neutral: neutral + 1}));
-    this.countTotalFeedback();
-    this.countPositiveFeedbackPercentage();
-  }
-
-  badFeedbackIncrement = () => {
-    this.setState(({bad}) => ({bad: bad + 1}));
-    this.countTotalFeedback();
-    this.countPositiveFeedbackPercentage();
-  }
-
   render() {
-    const {title, btns, stats, stats__item} = styles;
+    const {title} = styles;
+    const btnNames = Object.keys(this.state).filter(n => (n !== "total" && n !== "positive"));
     const {good, neutral, bad, total, positive} = this.state;
 
     return (
       <>
         <h2 className={title}>Please leave feedback</h2>
-        <button className={btns} onClick={this.feedbackIncrementHandler}>good</button>
-        <button className={btns} onClick={this.feedbackIncrementHandler}>neutral</button>
-        <button className={btns} onClick={this.feedbackIncrementHandler}>bad</button>
+        <FeedbackOptions options={btnNames} onLeaveFeedback={this.feedbackIncrementHandler} />
         <h2 className={title}>Statistics</h2>
-        <ul className={stats}>
-          <li className={stats__item}>Good: {good}</li>
-          <li className={stats__item}>Neutral: {neutral}</li>
-          <li className={stats__item}>Bad: {bad}</li>
-          <li className={stats__item}>Total: {total}</li>
-          <li className={stats__item}>Positive feedback: {positive}%</li>
-        </ul>
+        <Statistics good={good} neutral={neutral} bad={bad} total={total} positivePercentage={positive}/>
       </>
     );
   }
 }
-
-// <h2 className={title}>Please leave feedback</h2>
-/* {btnNames.map(n => (
-  <button key={n} className={btns}>{n}</button>
-))} */
  
 export default App;

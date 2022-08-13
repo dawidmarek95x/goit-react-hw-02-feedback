@@ -1,0 +1,12 @@
+.stats {
+  list-style-type: none;
+
+  &__item {
+    font-size: 20px;
+    font-weight: 500;
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}
