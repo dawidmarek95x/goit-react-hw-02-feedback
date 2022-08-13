@@ -18,6 +18,16 @@ export class App extends Component {
     this.setState(({good, total}) => ({positive: Math.round((good / total) * 100)}));
   }
 
+  feedbackIncrementHandler = (evt) => {
+    this.feedbackIncrement(evt.target.textContent);
+    this.countTotalFeedback();
+    this.countPositiveFeedbackPercentage();
+  }
+
+  feedbackIncrement = (key) => {
+    this.setState((state) => ({[key]: state[key] + 1}));
+  }
+
   goodFeedbackIncrement = () => {
     this.setState(({good}) => ({good: good + 1}));
     this.countTotalFeedback();
@@ -43,9 +53,9 @@ export class App extends Component {
     return (
       <>
         <h2 className={title}>Please leave feedback</h2>
-        <button className={btns} onClick={this.goodFeedbackIncrement}>good</button>
-        <button className={btns} onClick={this.neutralFeedbackIncrement}>neutral</button>
-        <button className={btns} onClick={this.badFeedbackIncrement}>bad</button>
+        <button className={btns} onClick={this.feedbackIncrementHandler}>good</button>
+        <button className={btns} onClick={this.feedbackIncrementHandler}>neutral</button>
+        <button className={btns} onClick={this.feedbackIncrementHandler}>bad</button>
         <h2 className={title}>Statistics</h2>
         <ul className={stats}>
           <li className={stats__item}>Good: {good}</li>
