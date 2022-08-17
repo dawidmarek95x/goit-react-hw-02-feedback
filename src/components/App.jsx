@@ -24,11 +24,8 @@ export class App extends Component {
     )
   }
 
-  feedbackIncrementHandler = (evt) => {
-    this.feedbackIncrement(evt.target.textContent);
-  }
-
-  feedbackIncrement = (key) => {
+  feedbackIncrement = (evt) => {
+    const key = evt.target.textContent;
     this.setState((state) => ({[key]: state[key] + 1}));
   }
 
@@ -43,7 +40,7 @@ export class App extends Component {
         <Section title="Please leave feedback">
           <FeedbackOptions 
             options={btnNames} 
-            onLeaveFeedback={this.feedbackIncrementHandler} 
+            onLeaveFeedback={this.feedbackIncrement}
           />
         </Section>
         <Section title="Statistics">
