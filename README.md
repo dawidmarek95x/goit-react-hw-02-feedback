@@ -3,7 +3,7 @@
 ## Project info
 Application for collecting statistics on customer satisfaction in the form of a feedback.
 
-**Project link:** [Feedback widget](https://dawidmarek95x.github.io/goit-react-hw-04-hooks-feedback/)
+**Project link:** [Feedback widget](https://dawidmarek95x.github.io/goit-react-hw-02-feedback/)
 
 ## Technologies
 **Project was created with:**
